@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { ReactiveBase } from '@appbaseio/reactivesearch';
+import { DataSearch } from '@appbaseio/reactivesearch';
+import { ReactiveList } from '@appbaseio/reactivesearch';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+	render() {
+		return (
+			<ReactiveBase
+				app="deeds-search"
+				url="http://localhost:9200">
+				<DataSearch            
+            componentId="firstNameSearch"            
+            dataField={["agent.firstName, counterAgent.firstName"]}                      
+            className="search-bar"            
+            queryFormat="and"            
+            placeholder="Search for firstnames..."                  
+        />
+
+
+
+        <ReactiveList
+            componentId="SearchResult"
+            dataField="mongo_id"
+            renderItem={(res) => <div>{res.mongo_id}</div>}
+        />
+
+
+
+				<div>
+					Hello ReactiveSearch!
+				</div>
+			</ReactiveBase>
+		);
+	}
 }
 
 export default App;
